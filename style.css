@@ -402,33 +402,18 @@ header.scrolled {
 }
 
 .hero-text p {
-    font-size: 1.6rem;
     color: var(--text-muted);
-    margin-bottom: 3.5rem;
-    line-height: 1.9;
-    max-width: 100%;
+    font-size: 1.5rem;
+    line-height: 1.8;
+    margin-bottom: 3rem;
     animation: fadeInUp 0.8s ease-out 0.4s both;
     word-wrap: break-word;
     overflow-wrap: break-word;
-    padding: 0 1rem;
-}
-
-@media (max-width: 1024px) {
-    .hero-text p {
-        font-size: 1.5rem;
-    }
-}
-
-@media (max-width: 768px) {
-    .hero-text p {
-        font-size: 1.45rem;
-        max-width: 100%;
-    }
 }
 
 @media (max-width: 576px) {
     .hero-text p {
-        font-size: 1.4rem;
+        font-size: 1.45rem;
         margin-bottom: 2rem;
         padding: 0 0.5rem;
     }
