@@ -15,6 +15,12 @@
     
     <!-- External CSS -->
     <link rel="stylesheet" href="style.css">
+    <script>
+        (function () {
+            var theme = localStorage.getItem('portfolio-theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', theme);
+        })();
+    </script>
 </head>
 <body>
     <!-- Particles.js Background -->
@@ -32,11 +38,23 @@
             <li><a href="#formation">Formation</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
-        
-        <div class="hamburger" id="hamburger-menu">
-            <div></div>
-            <div></div>
-            <div></div>
+
+        <div class="header-controls">
+            <div class="theme-switch" role="group" aria-label="Thème d'affichage">
+                <button type="button" class="theme-switch-btn" id="theme-dark" data-theme-value="dark" aria-pressed="true" title="Mode sombre">
+                    <i class="fas fa-moon" aria-hidden="true"></i>
+                    <span>Sombre</span>
+                </button>
+                <button type="button" class="theme-switch-btn" id="theme-light" data-theme-value="light" aria-pressed="false" title="Mode clair">
+                    <i class="fas fa-sun" aria-hidden="true"></i>
+                    <span>Clair</span>
+                </button>
+            </div>
+            <div class="hamburger" id="hamburger-menu">
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
         </div>
     </header>
     
@@ -91,7 +109,7 @@
                     <div class="highlight-item">
                         <i class="fas fa-graduation-cap"></i>
                         <h4>Formation</h4>
-                        <p>Licence 2 en Informatique Appliquée à la Gestion</p>
+                        <p>Licence 3 en Informatique Appliquée à la Gestion (ISI) & Licence 2 en Anglais (UNCHK)</p>
                     </div>
                     <div class="highlight-item">
                         <i class="fas fa-globe"></i>
@@ -181,6 +199,19 @@
                     <li>Stratégie Digitale</li>
                     <li>Social Media Management</li>
                     <li>Acquisition & Conversion</li>
+                </ul>
+            </div>
+
+            <!-- Compétence 4: Support IT & Systèmes -->
+            <div class="expertise-card">
+                <div class="expertise-icon"><i class="fas fa-headset"></i></div>
+                <h3>Support IT & Systèmes</h3>
+                <div class="expertise-type">Certifié Google</div>
+                <p>Support technique, administration des systèmes Windows & Linux, réseaux (TCP/IP, DNS), sécurité informatique et résolution d'incidents.</p>
+                <ul class="expertise-list">
+                    <li>Dépannage & Troubleshooting</li>
+                    <li>Administration Systèmes</li>
+                    <li>Réseaux & Sécurité IT</li>
                 </ul>
             </div>
         </div>
@@ -295,7 +326,7 @@
             <div class="timeline-card">
                 <div class="timeline-header">
                     <div class="timeline-title">
-                        <h3>Licence 2 - Informatique Appliquée à la Gestion</h3>
+                        <h3>Licence 3 - Informatique Appliquée à la Gestion</h3>
                         <h4>Institut Supérieur d'Informatique (ISI)</h4>
                     </div>
                     <span class="timeline-badge in-progress">En cours</span>
@@ -309,7 +340,7 @@
             <div class="timeline-card">
                 <div class="timeline-header">
                     <div class="timeline-title">
-                        <h3>Licence 1 - Anglais</h3>
+                        <h3>Licence 2 - Anglais</h3>
                         <h4>Université Numérique Cheikh Hamidou Kane (UNCHK)</h4>
                     </div>
                     <span class="timeline-badge in-progress">En cours</span>
@@ -334,6 +365,24 @@
             </div>
 
             <!-- Card 4 -->
+            <div class="timeline-card">
+                <div class="timeline-header">
+                    <div class="timeline-title">
+                        <h3>Google IT Support Professional Certificate</h3>
+                        <h4>Google & Coursera</h4>
+                    </div>
+                    <span class="timeline-badge certified">Certifié</span>
+                </div>
+                <div class="timeline-body">
+                    <p>Parcours complet en support informatique : dépannage matériel et logiciel, administration Windows & Linux, réseaux (TCP/IP, DNS), sécurité IT et service client.</p>
+                    <a href="https://www.coursera.org/account/accomplishments/specialization/6O4WVNOMC59I" target="_blank" rel="noopener noreferrer" class="timeline-cert-link">
+                        <img src="assets/google-it-support-cert.png" alt="Certificat Google IT Support Professional" class="timeline-cert-image">
+                        <span>Voir la certification <i class="fas fa-external-link-alt"></i></span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Card 5 -->
             <div class="timeline-card">
                 <div class="timeline-header">
                     <div class="timeline-title">
@@ -446,6 +495,74 @@
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/particles.js/2.0.0/particles.min.js"></script>
     <script>
+        // Light / dark theme
+        const root = document.documentElement;
+        const themeButtons = document.querySelectorAll('.theme-switch-btn');
+
+        function getParticleColor() {
+            return root.getAttribute('data-theme') === 'light' ? '#4f63d2' : '#7c74ff';
+        }
+
+        function updateThemeUI(theme) {
+            themeButtons.forEach((btn) => {
+                const isActive = btn.getAttribute('data-theme-value') === theme;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+            });
+            root.style.colorScheme = theme === 'light' ? 'light' : 'dark';
+        }
+
+        function setTheme(theme) {
+            root.setAttribute('data-theme', theme);
+            localStorage.setItem('portfolio-theme', theme);
+            updateThemeUI(theme);
+            initParticles();
+        }
+
+        function initParticles() {
+            if (typeof particlesJS !== 'function') return;
+
+            const particlesEl = document.getElementById('particles-js');
+            if (!particlesEl) return;
+
+            const particleColor = getParticleColor();
+            particlesEl.style.display = 'block';
+            particlesEl.innerHTML = '';
+
+            particlesJS('particles-js', {
+                particles: {
+                    number: { value: 90, density: { enable: true, value_area: 850 } },
+                    color: { value: particleColor },
+                    shape: { type: 'circle' },
+                    opacity: { value: 0.4, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false } },
+                    size: { value: 2.5, random: true, anim: { enable: false } },
+                    line_linked: { enable: true, distance: 130, color: particleColor, opacity: 0.25, width: 1 },
+                    move: { enable: true, speed: 1.2, direction: 'none', random: true, straight: false, out_mode: 'out', bounce: false, attract: { enable: true, rotateX: 600, rotateY: 1200 } }
+                },
+                interactivity: {
+                    detect_on: 'canvas',
+                    events: {
+                        onhover: { enable: true, mode: 'grab' },
+                        onclick: { enable: true, mode: 'push' },
+                        resize: true
+                    },
+                    modes: {
+                        grab: { distance: 140, line_linked: { opacity: 0.65 } },
+                        push: { particles_nb: 3 }
+                    }
+                },
+                retina_detect: true
+            });
+        }
+
+        themeButtons.forEach((btn) => {
+            btn.addEventListener('click', () => {
+                setTheme(btn.getAttribute('data-theme-value'));
+            });
+        });
+
+        setTheme(root.getAttribute('data-theme') || 'dark');
+
         // Mobile Navigation Hamburger Toggle
         const hamburger = document.getElementById('hamburger-menu');
         const navMenu = document.getElementById('nav-menu');
@@ -516,7 +633,7 @@
             navItems.forEach(item => {
                 item.classList.remove('active');
                 if (item.getAttribute('href') === `#${currentSectionId}`) {
-                    item.style.color = '#7c74ff';
+                    item.style.color = 'var(--secondary)';
                     item.classList.add('active');
                 } else {
                     item.style.color = '';
@@ -533,88 +650,6 @@
             });
         }
         
-        // Particles.js Modern Star/Constellation Configuration
-        particlesJS("particles-js", {
-            "particles": {
-                "number": {
-                    "value": 90,
-                    "density": {
-                        "enable": true,
-                        "value_area": 850
-                    }
-                },
-                "color": {
-                    "value": "#7c74ff"
-                },
-                "shape": {
-                    "type": "circle"
-                },
-                "opacity": {
-                    "value": 0.4,
-                    "random": true,
-                    "anim": {
-                        "enable": true,
-                        "speed": 1,
-                        "opacity_min": 0.1,
-                        "sync": false
-                    }
-                },
-                "size": {
-                    "value": 2.5,
-                    "random": true,
-                    "anim": {
-                        "enable": false
-                    }
-                },
-                "line_linked": {
-                    "enable": true,
-                    "distance": 130,
-                    "color": "#7c74ff",
-                    "opacity": 0.25,
-                    "width": 1
-                },
-                "move": {
-                    "enable": true,
-                    "speed": 1.2,
-                    "direction": "none",
-                    "random": true,
-                    "straight": false,
-                    "out_mode": "out",
-                    "bounce": false,
-                    "attract": {
-                        "enable": true,
-                        "rotateX": 600,
-                        "rotateY": 1200
-                    }
-                }
-            },
-            "interactivity": {
-                "detect_on": "canvas",
-                "events": {
-                    "onhover": {
-                        "enable": true,
-                        "mode": "grab"
-                    },
-                    "onclick": {
-                        "enable": true,
-                        "mode": "push"
-                    },
-                    "resize": true
-                },
-                "modes": {
-                    "grab": {
-                        "distance": 140,
-                        "line_linked": {
-                            "opacity": 0.65
-                        }
-                    },
-                    "push": {
-                        "particles_nb": 3
-                    }
-                }
-            },
-            "retina_detect": true
-        });
     </script>
 </body>
 </html>
